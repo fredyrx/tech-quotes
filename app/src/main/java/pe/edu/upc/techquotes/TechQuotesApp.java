@@ -18,9 +18,6 @@ public class TechQuotesApp extends Application {
 
     private static TechQuotesApp instance;
 
-    private TechQuote selectedQuote;
-    private List<TechQuote> quotes;
-
     public TechQuotesApp(){
         super();
         instance = this;
@@ -39,18 +36,15 @@ public class TechQuotesApp extends Application {
     }
 
     public void addQuote(TechQuote quote){
-        quotes.add(quote);
+        techApi.addQuote(quote);
     }
 
     public TechQuote getLastQuote(){
-        int lastIndex = quotes.size()-1;
-        return quotes.get(lastIndex);
+        return techApi.getLastQuote();
     }
 
     public List<TechQuote> getAllQuotes(){
-        return quotes;
+        return techApi.getQuotes();
     }
-
-
 
 }

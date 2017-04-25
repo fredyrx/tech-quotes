@@ -1,11 +1,12 @@
 package pe.edu.upc.techquotes.network;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pe.edu.upc.techquotes.models.TechQuote;
 
 /**
- * Created by proyecto on 24/04/2017.
+ * Created by Fredy Ramos on 24/04/2017.
  */
 
 public class TechQuoteApi {;
@@ -13,6 +14,19 @@ public class TechQuoteApi {;
 
     private TechQuote selectedQuote;
     private List<TechQuote> quotes;
+
+    public TechQuoteApi(){
+        quotes = new ArrayList<>();
+        selectedQuote = new TechQuote();
+    }
+
+    public static String getQuotesUrl() {
+        return QUOTES_URL;
+    }
+
+    public static void setQuotesUrl(String quotesUrl) {
+        QUOTES_URL = quotesUrl;
+    }
 
     public TechQuote getSelectedQuote() {
         return selectedQuote;
@@ -30,13 +44,18 @@ public class TechQuoteApi {;
         this.quotes = quotes;
     }
 
-    private TechQuote currentTechQuote;
-
-    public TechQuote getCurrentSource() {
-        return currentTechQuote;
+    public void addQuote(TechQuote quote){
+        quotes.add(quote);
     }
 
-    public void setCurrentSource(TechQuote currentTechQuote) {
-        this.currentTechQuote = currentTechQuote;
+    public TechQuote getLastQuote(){
+        int lastIndex = quotes.size();
+        if (lastIndex > 0){
+            return quotes.get(lastIndex-1);
+        }else{
+            return null;
+        }
     }
+
+
 }
