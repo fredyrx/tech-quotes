@@ -3,6 +3,7 @@ package pe.edu.upc.techquotes.activities;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,6 +47,9 @@ public class QuotesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         quotesRecyclerView = (RecyclerView) findViewById(R.id.quotesRecyclerView);
         quotesAdapter = new QuotesAdapter();
         quotes = new ArrayList<>();
@@ -61,27 +65,33 @@ public class QuotesActivity extends AppCompatActivity {
     }
 
     private void updateQuotes() {
-        AndroidNetworking.get(TechQuoteApi.QUOTES_URL)
-                //.addQueryParameter("source", source.getId())
-                //.addQueryParameter("apiKey",getString(R.string.news_api_key))
-                .setTag(TAG)
-                .setPriority(Priority.LOW)
-                .build()
-                .getAsJSONArray(new JSONArrayRequestListener() {
-                    @Override
-                    public void onResponse(JSONArray response) {
+        try {
+            AndroidNetworking.get(TechQuoteApi.QUOTES_URL)
+                    //.addQueryParameter("source", source.getId())
+                    //.addQueryParameter("apiKey",getString(R.string.news_api_key))
+                    .setTag(TAG)
+                    .setPriority(Priority.LOW)
+                    .build()
+                    .getAsJSONArray(new JSONArrayRequestListener() {
+                        @Override
+                        public void onResponse(JSONArray response) {
 
-                        quotes = TechQuote.build(response);
-                        quotesAdapter.setQuotes(quotes);
-                        quotesAdapter.notifyDataSetChanged();
+                            quotes = TechQuote.build(response);
+                            quotesAdapter.setQuotes(quotes);
+                            quotesAdapter.notifyDataSetChanged();
 
-                    }
+                        }
 
-                    @Override
-                    public void onError(ANError anError) {
-                        Log.d(TAG, anError.getLocalizedMessage());
-                    }
-                });
+                        @Override
+                        public void onError(ANError anError) {
+                            quotesAdapter.setQuotes(TechQuotesApp.getInstance().getAllQuotes());
+                            quotesAdapter.notifyDataSetChanged();
+                            Log.d(TAG, anError.getLocalizedMessage());
+                        }
+                    });
+        }catch(Exception ex){
+
+        }
     }
 
 }

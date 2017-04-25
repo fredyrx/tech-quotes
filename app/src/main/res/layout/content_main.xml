@@ -10,7 +10,11 @@
     android:orientation="vertical">
 
     <include layout="@layout/card_tech_quote" />
-
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/alertTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <Button
         android:id="@+id/newQuoteButton"
         android:text="NEW QUOTE"

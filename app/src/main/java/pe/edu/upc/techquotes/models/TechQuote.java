@@ -41,6 +41,10 @@ public class TechQuote {
     }
 
     public String getQuote() {
+        return quote;
+    }
+
+    public String getDecoratedQuote(){
         return "\""+quote+"\"";
     }
 

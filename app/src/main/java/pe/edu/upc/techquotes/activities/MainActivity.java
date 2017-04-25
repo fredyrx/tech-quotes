@@ -5,13 +5,17 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 import pe.edu.upc.techquotes.R;
+import pe.edu.upc.techquotes.TechQuotesApp;
+import pe.edu.upc.techquotes.models.TechQuote;
 
 /**
  * Created by Fredy Ramos on 24/04/2017.
@@ -19,7 +23,13 @@ import pe.edu.upc.techquotes.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button newQuote;
+    private TechQuote lastQuote;
+
+    private TextView messageTextView;
+    private Button newQuote;
+    private TextView quoteTextView;
+    private TextView authorTextView;
+    private CardView quoteCardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         newQuote = (Button) findViewById(R.id.newQuoteButton);
 
@@ -37,6 +49,36 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        quoteTextView = (TextView) findViewById(R.id.quoteMainTextView);
+        authorTextView = (TextView) findViewById(R.id.authorMainTextView);
+        messageTextView = (TextView) findViewById(R.id.alertTextView);
+        quoteCardView = (CardView) findViewById(R.id.techQuoteCardView);
+        update();
+    }
+
+    public void update(){
+        // Traemos al ultimo Quote almacenado en memoria
+        lastQuote = TechQuotesApp.getInstance().getLastQuote();
+        if (lastQuote == null){
+            quoteCardView.setVisibility(View.GONE);
+            messageTextView.setVisibility(View.VISIBLE);
+            messageTextView.setText("No tienes Frases alamacenadas.");
+        } else{
+            // Mostramos datos de Quote en elememtos del cardView
+
+            quoteCardView.setVisibility(View.VISIBLE);
+            messageTextView.setVisibility(View.GONE);
+            quoteTextView.setText(lastQuote.getDecoratedQuote());
+            authorTextView.setText(lastQuote.getAuthor());
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        update();
+
     }
 
     @Override

@@ -8,4 +8,6 @@
     tools:context="pe.edu.upc.techquotes.activities.AboutActivity"
     tools:showIn="@layout/activity_about">
 
+    <include layout="@layout/card_tech_quote"/>
+
 </android.support.constraint.ConstraintLayout>

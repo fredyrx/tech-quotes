@@ -14,7 +14,7 @@ import pe.edu.upc.techquotes.network.TechQuoteApi;
 
 public class TechQuotesApp extends Application {
 
-    TechQuoteApi techApi = new TechQuoteApi();
+    private TechQuoteApi techApi = new TechQuoteApi();
 
     private static TechQuotesApp instance;
 
